@@ -34,10 +34,9 @@ def predict_height_weight_BMI(input_image):
             'category': category
         }
     except ValueError as e:
-        print(e)
-        return {
-            'error': e
-        }
+        raise ValueError(e)
+    except Exception as ex:
+        raise Exception(ex)
 
 
 def get_category(bmi):

@@ -54,8 +54,15 @@ async def create_upload_file(file: UploadFile = File(...)):
 
         with open(file_loc, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-
-        predicted = predict_height_weight_BMI(file_loc)
-        return {"prediction": predicted}
+        try:
+            predicted = predict_height_weight_BMI(file_loc)
+            return {"prediction": predicted}
+        except ValueError as e:
+            return {"error": str(e)}
+        except Exception as ex:
+            return {"error": str(ex)}
+        finally:
+            if (isprod):
+                os.remove(file_loc)
     else:
         return {"error": "jpeg image only"}
