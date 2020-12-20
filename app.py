@@ -27,6 +27,17 @@ if (isprod):
 
 else:
     app = FastAPI()
+    origins = [
+        "*",
+    ]
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=False,
+        allow_methods=["POST"],
+        allow_headers=["*"],
+    )
 
 
 @app.post("/getbmi/")
