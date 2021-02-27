@@ -65,4 +65,4 @@ async def create_upload_file(file: UploadFile = File(...)):
             if (isprod):
                 os.remove(file_loc)
     else:
-        return {"error": "jpeg image only"}
+        return {"error": "API supports only JPEG format"}

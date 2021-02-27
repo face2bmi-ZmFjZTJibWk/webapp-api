@@ -12,7 +12,7 @@ def get_face_encoding(image_path):
     image = face_recognition.load_image_file(image_path)
     my_face_encoding = face_recognition.face_encodings(image)
     if not my_face_encoding:
-        raise ValueError("no face found")
+        raise ValueError("No Face Found in Image")
     return my_face_encoding[0].tolist()
 
 
