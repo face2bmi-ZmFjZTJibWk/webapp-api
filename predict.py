@@ -9,11 +9,18 @@ HEIGHT_MODEL = joblib.load('model/height_predictor.model')
 
 
 def get_face_encoding(image_path):
-    image = face_recognition.load_image_file(image_path)
-    my_face_encoding = face_recognition.face_encodings(image)
-    if not my_face_encoding:
-        raise ValueError("No Face Found in Image")
-    return my_face_encoding[0].tolist()
+    # load image in face-recognition
+    input_image = face_recognition.load_image_file(image_path)
+    # get face data encodings extracted from image from facenet's pretrained data
+    face_locations = face_recognition.face_locations(input_image)
+    if len(face_locations) == 1:
+        face_encoding = face_recognition.face_encodings(
+            input_image, known_face_locations=face_locations, num_jitters=10, model='large')[0]
+        return face_encoding.tolist()
+    elif (len(face_locations) < 1):
+        raise ValueError("Face not found in Image")
+    else:
+        raise ValueError("More than one face found in Image")
 
 
 def predict_height_weight_BMI(input_image):
